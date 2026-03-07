@@ -28,13 +28,8 @@ variable "instance_class" {
   default     = "db.t3.micro"
 }
 
-variable "username" {
+variable "db_username" {
   description = "Master username for the DB"
-  type        = string
-}
-
-variable "password" {
-  description = "Master password for the DB"
   type        = string
   sensitive   = true
 }
@@ -49,4 +44,22 @@ variable "skip_final_snapshot" {
   description = "Whether to skip final snapshot on destroy"
   type        = bool
   default     = true
+}
+
+variable "replication_source_identifier" {
+  description = "ARN of the source DB instance for replication"
+  type        = string
+  default     = null
+}
+
+variable "password_wo" {
+  description = "Master password for the DB (without version)"
+  type        = string
+  sensitive   = true
+  ephemeral   = true
+}
+
+variable "password_wo_version" {
+  description = "Version of the master password for the DB"
+  type        = number
 }

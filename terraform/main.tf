@@ -1,5 +1,5 @@
 # Create Resource Instance 
-resource "aws_instance" "example" {
+resource "aws_instance" "app_server" {
   ami           = "amzn-linux-2023"
   instance_type = "c6a.2xlarge"
 
@@ -9,15 +9,15 @@ resource "aws_instance" "example" {
   }
 
   ebs_block_device {
-    volume_id   = aws_ebs_volume.example.id
+    volume_id   = aws_ebs_volume.data_volume.id
     device_name = "/dev/sdh"
   }
 
   tags       = local.tags
-  depends_on = [aws_ebs_volume.example]
+  depends_on = [aws_ebs_volume.data_volume]
 }
 
-resource "aws_ebs_volume" "example" {
+resource "aws_ebs_volume" "data_volume" {
   availability_zone = "us-east-2a"
   size              = 40
   encrypted         = true
@@ -31,6 +31,7 @@ resource "aws_ebs_volume" "example" {
 module "rds_instance" {
   source = "../modules"
   db_name              = var.db_name
-  username             = var.db_username
-  password             = var.db_password
+  db_username          = data.vault_kv_secret_v2.username.data["db_username"]
+  password_wo          = tostring(ephemeral.vault_kv_secret_v2.vault_ref.data["db_password"])
+  password_wo_version  = vault_kv_secret_v2.generated_password.data_json_wo_version
 }
