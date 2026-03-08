@@ -28,28 +28,3 @@ Add Galaxy roles with:
 ```bash
 ansible-galaxy install -r requirements.yml -p roles/
 ```
-inventory: define quais máquinas o Ansible vai gerenciar.
-playbook: descreve O QUE deve ser feito e EM QUAIS HOSTS.
-
-As roles são a parte mais importante do Ansible.
-Elas organizam código reutilizável.
-Uma role representa uma função do servidor.
-
-Exemplos:
-nginx,docker,postgres
-kubernetes-node
-
-tasks/
-Aqui ficam as tarefas da role.
-
-templates/
-Arquivos que usam Jinja2 para gerar configurações.
-
-files/
-Arquivos estáticos que precisam ser copiados.
-
-handlers/
-Tasks que executam apenas quando notificadas.
-
-defaults/
-Variáveis com valores padrão.

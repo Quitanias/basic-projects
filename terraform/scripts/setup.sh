@@ -51,5 +51,5 @@ while ! curl -s http://localhost:4566 > /dev/null; do
 done
 
 echo ""
-echo "✅ Environment configured properly!"
-echo "⚠️  Remember to run this script as 'source scripts/setup.sh' to preserve VAULT_TOKEN!"
+echo "Environment configured properly!"
+echo "Remember to run this script as 'source scripts/setup.sh' to preserve VAULT_TOKEN!"
