@@ -10,4 +10,6 @@ resource "aws_db_instance" "rds_instance" {
   username                  = var.db_username
   password_wo               = var.password_wo
   password_wo_version       = var.password_wo_version
+
+  iam_database_authentication_enabled = false
 }

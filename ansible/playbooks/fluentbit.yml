@@ -1,0 +1,6 @@
+---
+- name: Install Fluent Bit via collection role
+  hosts: logs
+  become: true
+  roles:
+    - quit.core.fluentbit

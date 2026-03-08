@@ -1,0 +1,15 @@
+---
+# role: user
+# creates a devops user and adds ssh key
+
+- name: Create devops user
+  ansible.builtin.user:
+    name: "{{ devops_username }}"
+    groups: "{{ devops_groups }}"
+    shell: "{{ devops_shell }}"
+    state: present
+
+- name: Add SSH key for devops user
+  ansible.posix.authorized_key:
+    user: "{{ devops_username }}"
+    key: "{{ lookup('file', devops_pubkey_path) }}"

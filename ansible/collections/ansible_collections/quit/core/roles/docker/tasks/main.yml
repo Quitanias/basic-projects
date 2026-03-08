@@ -1,0 +1,15 @@
+---
+# role: docker
+# installs and starts Docker on target hosts
+
+- name: Install Docker
+  ansible.builtin.dnf:
+    name: "{{ docker_package_name }}"
+    state: present
+    update_cache: true
+
+- name: Start Docker service
+  ansible.builtin.service:
+    name: "{{ docker_service_name }}"
+    state: started
+    enabled: true

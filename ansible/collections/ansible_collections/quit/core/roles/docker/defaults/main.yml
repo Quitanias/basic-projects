@@ -1,0 +1,5 @@
+---
+# default variables for docker role
+
+docker_package_name: docker
+docker_service_name: docker

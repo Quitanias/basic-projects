@@ -1,0 +1,6 @@
+---
+- name: Install node_exporter via collection role
+  hosts: monitoring
+  become: true
+  roles:
+    - quit.core.node_exporter

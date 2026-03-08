@@ -11,16 +11,12 @@ ephemeral "random_password" "rds_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-// Create (or ensure) a KV secrets engine mount using version 2.
-resource "vault_mount" "kv_v2" {
-  path    = "secret"
-  type    = "kv"
-  options = { version = "2" }
-}
+// Hardcode the mount path since the "secret" engine already exists on Vault.
+// LocalStack relies on this to fetch creds, so it must exist.
 
 // Store the generated password in the KV v2 secret store.
 resource "vault_kv_secret_v2" "generated_password" {
-  mount               = vault_mount.kv_v2.path
+  mount               = "secret"
   name                = "vault"
   cas                 = 1
   delete_all_versions = true
@@ -38,11 +34,18 @@ resource "vault_kv_secret_v2" "generated_password" {
 // ephemeral mapping to read/display connection details without persisting
 // them in state; keep this block if your workflow relies on it.
 ephemeral "vault_kv_secret_v2" "vault_ref" {
-  mount    = vault_mount.kv_v2.path
-  name     = vault_kv_secret_v2.generated_password.name
+  mount = "secret"
+  name  = vault_kv_secret_v2.generated_password.name
+}
+
+// Fetch the existing AWS credentials from the Vault KV engine.
+// This requires the path `secret/aws_credentials` to exist beforehand.
+ephemeral "vault_kv_secret_v2" "aws_credentials" {
+  mount = "secret"
+  name  = "aws_credentials"
 }
 
 data "vault_kv_secret_v2" "username" {
-  mount    = vault_mount.kv_v2.path
-  name     = "username"
+  mount = "secret"
+  name  = "username"
 }

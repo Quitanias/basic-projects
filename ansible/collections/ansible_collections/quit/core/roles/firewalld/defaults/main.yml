@@ -1,0 +1,5 @@
+---
+# default variables for firewalld role
+
+firewalld_package: firewalld
+firewalld_service: firewalld

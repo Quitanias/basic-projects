@@ -1,0 +1,5 @@
+---
+# default variables for fluentbit role
+
+fluentbit_package: fluent-bit
+fluentbit_service: fluent-bit

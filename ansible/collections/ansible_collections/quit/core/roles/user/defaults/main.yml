@@ -1,0 +1,7 @@
+---
+# default variables for user role
+
+devops_username: devops
+devops_groups: wheel
+devops_shell: /bin/bash
+devops_pubkey_path: keys/devops.pub

@@ -1,0 +1,8 @@
+---
+- name: Deploy website
+  ansible.builtin.copy:
+    src: index.html
+    dest: /usr/share/nginx/html/index.html
+    owner: nginx
+    group: nginx
+    mode: '0644'
