@@ -4,7 +4,7 @@ This is a small demonstrative Terraform project intended to simulate an AWS envi
 
 - LocalStack (Docker) to emulate AWS services such as S3, EC2 and RDS.
 - HashiCorp Vault (dev mode) to store and expose secrets consumed by the Terraform configuration.
-- A bootstrap script `../scripts/setup.sh` that starts Vault and LocalStack and injects the necessary secrets (for example `db_username`, `db_password`, `access_key`, `secret_key`).
+- A bootstrap script `../scripts/bootstrap.sh` that starts Vault and LocalStack and injects the necessary secrets (for example `db_username`, `db_password`, `access_key`, `secret_key`).
 
 Architecture and runtime flow
 
@@ -17,21 +17,22 @@ Reproduce locally
 1. Run the bootstrap script to start Vault and LocalStack and populate secrets:
 
 ```bash
-cd basic-projects/terraform
-bash scripts/setup.sh
+make bootstrap
+source scripts/bootstrap.sh
 ```
 
 2. Initialize and validate Terraform:
 
 ```bash
-terraform init
-terraform validate
+make init
+# or 'terraform validate'
 ```
 
-3. Create a plan (example):
+3. Create a plan or apply:
 
 ```bash
-terraform plan -var-file=dev.tfvars
+make plan # Uses dev.tfvars securely
+make apply
 ```
 
 Notes and best practices

@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  collections:
+    - devops.core
+  roles:
+    - docker

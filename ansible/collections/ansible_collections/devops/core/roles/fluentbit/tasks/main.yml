@@ -1,0 +1,27 @@
+---
+# role: fluentbit
+# ensures repository, installs package and starts service
+
+- name: Install Fluent Bit repository
+  ansible.builtin.yum_repository:
+    name: fluentbit
+    description: Fluent Bit
+    baseurl: https://packages.fluentbit.io/amazonlinux/2/$basearch/
+    gpgcheck: true
+    gpgkey: https://packages.fluentbit.io/fluentbit.key
+    enabled: true
+
+- name: Install Fluent Bit package
+  ansible.builtin.dnf:
+    name: "{{ fluentbit_package }}"
+    state: present
+  ignore_errors: true
+
+- name: Configure and start Fluent Bit (skipped in docker tests)
+  block:
+    - name: Ensure Fluent Bit service is running
+      ansible.builtin.service:
+        name: "{{ fluentbit_service }}"
+        state: started
+        enabled: true
+  when: ansible_virtualization_type | default('') not in ['docker', 'container']

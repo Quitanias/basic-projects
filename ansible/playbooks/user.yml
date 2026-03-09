@@ -2,5 +2,7 @@
 - name: Install and configure user on Amazon Linux 2023
   hosts: web
   become: true # Run tasks with sudo privileges
+  tags:
+    - user
   roles:
-    - quit.core.user
+    - devops.core.user

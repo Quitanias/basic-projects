@@ -1,0 +1,9 @@
+namespace: devops
+authors:
+  - Andreia Quitanias
+description: Ansible Galaxy Collection with roles for EL8
+name: core
+version: 1.0.0
+readme: README.md
+dependencies:
+  ansible.posix: ">=1.0.0"

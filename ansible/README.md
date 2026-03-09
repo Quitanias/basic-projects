@@ -1,30 +1,31 @@
-Ansible layout and best practices (example)
+# Ansible Layout
 
-- `inventory/` - hosts files and environment inventories (production, staging)
-- `inventory/group_vars/` - group variables
-- `inventory/host_vars/` - per-host variables
-- `playbooks/` - top-level playbooks (site.yml, web.yml, db.yml)
-- `roles/` - roles with standard layout (`tasks/`, `handlers/`, `defaults/`, `vars/`, `files/`, `templates/`, `meta/`)
-- `ansible.cfg` - project-specific Ansible configuration
-- `requirements.yml` - Ansible Galaxy role requirements
+This Ansible directory manages the post-provisioning configuration of the EC2 instances.
 
-Usage
+The directory layout follows best practices for Collections and Roles:
 
-Start by running playbook against the inventory defined in `ansible.cfg`:
+- `collections/ansible_collections/quit/core/` - Our custom collection housing the infrastructure roles (`docker`, `nginx`, `firewalld`, etc.)
+- `inventory/` - Hosts files and environment inventories.
+- `playbooks/` - Top-level playbooks integrating different roles (`app.yml`, `docker.yml`, `nginx.yml`).
+- `molecule/` - Isolated testing environment using Docker to validate role idempotency.
+- `requirements.txt` / `requirements.yml` - Dependencies for Ansible execution and Molecule testing.
+
+## Usage
+
+You can trigger the main application playbook simply using the Makefile from the root directory:
 
 ```bash
-cd basic-projects/ansible
-ansible-playbook playbooks/site.yml
+cd ..
+make test-ansible
+# or to run manually against a host
+ansible-playbook -i YOUR_IP, playbooks/app.yml
 ```
 
-To use a different inventory (e.g., staging):
+### Molecule Testing
+
+To test the `devops.core` roles locally using Docker:
 
 ```bash
-ANSIBLE_INVENTORY=inventory/staging/hosts ansible-playbook playbooks/site.yml
-```
-
-Add Galaxy roles with:
-
-```bash
-ansible-galaxy install -r requirements.yml -p roles/
+pip install -r requirements.txt
+molecule test
 ```

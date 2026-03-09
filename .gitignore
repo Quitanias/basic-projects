@@ -1,0 +1,30 @@
+### Terraform
+.terraform*
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+vault.log
+
+### Ansible
+inventory/
+*.tar.gz
+
+### Go/Terratest
+go.mod
+go.sum
+
+### Molecule & Deploy Generated Files
+ansible/.venv/
+.venv/
+__pycache__/
+*.pyc
+.localstack/
+
+# Ignore downloaded collections from Ansible Galaxy
+ansible/collections/ansible_collections/ansible.posix*
+ansible/collections/ansible_collections/community.docker*
+ansible/collections/ansible_collections/ansible/
+ansible/collections/ansible_collections/community/
+
+# Ignore mock SSH keys generated for tests
+ansible/playbooks/keys/

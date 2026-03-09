@@ -1,12 +1,7 @@
 # Create Resource Instance 
 resource "aws_instance" "app_server" {
-  ami           = "amzn-linux-2023"
-  instance_type = "c6a.2xlarge"
-
-  cpu_options {
-    core_count       = 2
-    threads_per_core = 2
-  }
+  ami           = var.ami
+  instance_type = var.instance_type
 
   provisioner "local-exec" {
     command = "cd ../ansible && ansible-playbook -i ${self.private_ip}, playbooks/app.yml"
@@ -22,23 +17,23 @@ resource "aws_volume_attachment" "ebs_att" {
 }
 
 resource "aws_ebs_volume" "data_volume" {
-  availability_zone = "us-east-2a"
-  size              = 40
+  availability_zone = var.availability_zone
+  size              = var.volume_size
   encrypted         = true
   iops              = "3000"
-  type              = "gp3"
+  type              = var.volume_type
 
   tags = local.tags
 }
 
-#Use module to create RDS instance (Requires LocalStack PRO)
-module "rds_instance" {
-  source              = "../modules"
-  db_name             = var.db_name
-  db_username         = data.vault_kv_secret_v2.username.data["db_username"]
-  password_wo         = tostring(ephemeral.vault_kv_secret_v2.vault_ref.data["password"])
-  password_wo_version = vault_kv_secret_v2.generated_password.data_json_wo_version
-}
+# Use module to create RDS instance (Requires LocalStack PRO)
+# module "rds_instance" {
+#   source              = "../modules"
+#   db_name             = var.db_name
+#   db_username         = data.vault_kv_secret_v2.username.data["db_username"]
+#   password_wo         = tostring(ephemeral.vault_kv_secret_v2.vault_ref.data["password"])
+#   password_wo_version = vault_kv_secret_v2.generated_password.data_json_wo_version
+# }
 
 # Start the Ansible playbook to install Nginx on the EC2 instance
 resource "local_file" "ansible_inventory" {

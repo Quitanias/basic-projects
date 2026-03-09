@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Verify Nginx is installed
+      ansible.builtin.command: nginx -v
+      register: nginx_check
+      changed_when: false
+      failed_when: nginx_check.rc != 0
+
+
+
+    - name: Verify Docker is installed
+      ansible.builtin.command: docker -v
+      register: docker_check
+      changed_when: false
+      failed_when: docker_check.rc != 0

@@ -2,5 +2,7 @@
 - name: Install and configure docker on Amazon Linux 2023
   hosts: web
   become: true  # Run tasks with sudo privileges
+  tags:
+    - docker
   roles:
-    - quit.core.docker
+    - devops.core.docker

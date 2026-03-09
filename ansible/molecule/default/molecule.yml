@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: geerlingguy/docker-amazonlinux2023-ansible
+    pre_build_image: true
+    groups:
+      - web
+      - logs
+      - monitoring
+    # Required to run systemd inside docker for proper service testing
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_COLLECTIONS_PATH: ../../collections
+    ANSIBLE_REMOTE_TMP: /tmp
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3
+        # Forçando o molecule a simular o usuário correto para não dar erro de permissão
+        ansible_user: root
+verifier:
+  name: ansible

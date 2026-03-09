@@ -2,5 +2,8 @@
 - name: Install node_exporter via collection role
   hosts: monitoring
   become: true
+  tags:
+    - node_exporter
+    - monitoring
   roles:
-    - quit.core.node_exporter
+    - devops.core.node_exporter

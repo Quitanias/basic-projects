@@ -2,5 +2,8 @@
 - name: Install Fluent Bit via collection role
   hosts: logs
   become: true
+  tags:
+    - fluentbit
+    - logs
   roles:
-    - quit.core.fluentbit
+    - devops.core.fluentbit
