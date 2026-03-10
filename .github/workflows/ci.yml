@@ -73,7 +73,7 @@ jobs:
         working-directory: ansible
         
     env:
-      ANSIBLE_CONFIG: ${{ github.workspace }}/ansible/ansible.cfg
+      ANSIBLE_COLLECTIONS_PATHS: ./collections
 
     steps:
       - uses: actions/checkout@v4
