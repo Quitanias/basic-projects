@@ -27,13 +27,14 @@ resource "aws_ebs_volume" "data_volume" {
 }
 
 # Use module to create RDS instance (Requires LocalStack PRO)
-# module "rds_instance" {
-#   source              = "../modules"
-#   db_name             = var.db_name
-#   db_username         = data.vault_kv_secret_v2.username.data["db_username"]
-#   password_wo         = tostring(ephemeral.vault_kv_secret_v2.vault_ref.data["password"])
-#   password_wo_version = vault_kv_secret_v2.generated_password.data_json_wo_version
-# }
+module "rds_instance" {
+  count               = lookup(var.env, terraform.workspace, "dev") == "prod" ? 1 : 0
+  source              = "../modules"
+  db_name             = var.db_name
+  db_username         = data.vault_kv_secret_v2.username.data["db_username"]
+  password_wo         = tostring(ephemeral.vault_kv_secret_v2.vault_ref.data["password"])
+  password_wo_version = vault_kv_secret_v2.generated_password.data_json_wo_version
+}
 
 # Start the Ansible playbook to install Nginx on the EC2 instance
 resource "local_file" "ansible_inventory" {

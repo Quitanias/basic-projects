@@ -80,7 +80,7 @@ jobs:
           pip install ansible ansible-lint
 
       - name: Ansible Syntax Check
-        run: ansible-playbook playbooks/site.yml --syntax-check
+        run: ansible-playbook playbooks/deploy_app.yml --syntax-check
 
       - name: Run Ansible Lint
         run: ansible-lint .
@@ -92,12 +92,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Trivy
-        uses: aquasecurity/trivy-action@master
-
       - name: Scan repository for vulnerabilities
-        run: trivy fs .
-
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
 
   integration-test:
     runs-on: ubuntu-latest

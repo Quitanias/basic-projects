@@ -9,6 +9,15 @@ variable "availability_zone" {
   type        = string
 }
 
+variable "env" {
+  description = "The environment to develop"
+  type        = map(string)
+  default = {
+    "dev"  = "dev"
+    "prod" = "prod"
+  }
+}
+
 ############### EC2 ##################
 variable "ami" {
   description = "The AMI ID to use for the EC2 instance"
