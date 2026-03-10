@@ -71,6 +71,9 @@ jobs:
     defaults:
       run:
         working-directory: ansible
+        
+    env:
+      ANSIBLE_CONFIG: ./ansible.cfg
 
     steps:
       - uses: actions/checkout@v4
