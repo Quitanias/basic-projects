@@ -130,6 +130,9 @@ jobs:
         run: terraform init
         working-directory: terraform
 
+      - name: Setup Vault CLI
+        uses: hashicorp/setup-vault@v3
+
       - name: Setup Vault Secrets
         run: |
           export VAULT_ADDR='http://127.0.0.1:8200'
