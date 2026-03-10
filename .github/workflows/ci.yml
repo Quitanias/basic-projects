@@ -140,8 +140,14 @@ jobs:
         run: |
           export VAULT_ADDR='http://127.0.0.1:8200'
           export VAULT_TOKEN='root'
+          
+          # Ensure secret/ is a kv-v2 engine
+          vault secrets enable -path=secret -version=2 kv || true
+          
+          # Put credentials in the expected paths
           vault kv put secret/aws_credentials access_key=mock_access_key secret_key=mock_secret_key
           vault kv put secret/username username=mock_user
+          vault kv put secret/vault password=mock_password
 
       - name: Terraform Plan
         run: terraform plan -var-file="dev.tfvars"
