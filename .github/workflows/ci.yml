@@ -82,6 +82,14 @@ jobs:
         run: |
           pip install ansible ansible-lint
 
+      - name: Debug Ansible Paths
+        run: |
+          echo "Workspace: ${{ github.workspace }}"
+          pwd
+          ls -R collections/
+          ansible-config dump | grep -i collections
+          ansible-galaxy collection list
+
       - name: Ansible Syntax Check
         run: ansible-playbook playbooks/deploy_app.yml --syntax-check
 
